@@ -6,7 +6,8 @@ const app = express();
 
 //express don't know how to deal with graphql but express-graphql. So any request for graphql let express-graphql deal with it.
 app.use('/qraphql', graphqlHTTP({
-    schema
+    schema,
+    graphiql: true // To open graphiql tool.
 }))
 
 app.listen(4000, () => {
