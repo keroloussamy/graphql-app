@@ -1,5 +1,13 @@
 const express = require('express');
+const graphqlHTTP = require('express-graphql');
+
 const app = express();
+
+//express don't know how to deal with graphql but express-graphql. So any request for graphql let express-graphql deal with it.
+app.use('/qraphql', graphqlHTTP({
+
+}))
+
 app.listen(4000, () => {
     console.log('Your app is working on 4000');
 })
