@@ -13,7 +13,7 @@ const BookType = new GraphQLObjectType({
     author: {
       type: AuthorType,
       resolve(parent, args) { // parent is the current book.
-        //return authorData.find((e) => e.id == parent.authorId );
+        return Author.findById(parent.authorId);
       }
     }
   })
@@ -40,7 +40,7 @@ const AuthorType = new GraphQLObjectType({
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args){
-        //return bookData.filter((e) => e.authorId == parent.id)
+        return Book.find({ authorId: parent.id });
       }
     }
   })
@@ -69,7 +69,7 @@ const RootQuery = new GraphQLObjectType({
           Note there's no ID type on JS, So GraphQLID is converted to String on JS.
           So e.id === args.id is not equal because this int and that is string now.
         */
-        //return bookData.find((e) => e.id == args.id );
+        return Book.findById(args.id);
       }
     },
     // {author(id: 1){name}} => return author's name with id equal 1.
@@ -77,20 +77,20 @@ const RootQuery = new GraphQLObjectType({
       type: AuthorType,
       args: {id: { type: GraphQLID }},
       resolve(parent, args){ 
-        //return authorData.find((e) => e.id == args.id );
+        return Author.findById(args.id);
       }
     },
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args){ 
-        //return bookData;
+        return Book.find({});
       }
     },
     // {authors {name}} => return all authors names.
     authors: {
       type: new GraphQLList(AuthorType),
       resolve(parent, args){ 
-        //return authorData;
+        return Author.find({});
       }
     }
   }
